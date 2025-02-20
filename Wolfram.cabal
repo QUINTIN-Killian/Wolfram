@@ -53,7 +53,7 @@ executable Wolfram-exe
 
 test-suite Wolfram-test
   type: exitcode-stdio-1.0
-  main-is: Spec.hs
+  main-is: Test.hs
   other-modules:
       Paths_Wolfram
   autogen-modules:
