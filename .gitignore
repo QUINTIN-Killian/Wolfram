@@ -1,2 +1,8 @@
 .stack-work/
 *~
+.vscode
+bin/
+*.o
+wolfram
+a.out
+vgcore*
