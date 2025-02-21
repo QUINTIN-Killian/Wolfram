@@ -3,6 +3,7 @@
 .vscode
 bin/
 *.o
+*.hi
 wolfram
 a.out
 vgcore*
