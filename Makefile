@@ -9,6 +9,7 @@ CC	=	ghc
 
 SRC	=	app/Main.hs	\
 		src/Lib.hs	\
+		src/Data.hs	\
 
 OBJ	=	$(SRC:src/*.hs=bin/*.o)
 
