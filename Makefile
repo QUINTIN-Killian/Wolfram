@@ -8,10 +8,8 @@
 CC	=	ghc
 
 SRC	=	app/Main.hs	\
-		src/Lib.hs	\
-		src/Data.hs	\
 
-OBJ	=	$(SRC:src/*.hs=bin/*.o)
+OBJ	=	$(SRC:*.hs=*.o)
 
 EXEC	=	wolfram
 
@@ -21,9 +19,7 @@ $(EXEC):	$(OBJ)
 	stack build
 	$(CC) -o $(EXEC) $(OBJ)
 	@mkdir -p bin
-	@mv src/*.o bin
 	@mv app/*.o bin
-	@mv src/*.hi bin
 	@mv app/*.hi bin
 
 clean:
