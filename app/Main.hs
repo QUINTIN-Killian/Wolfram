@@ -1,3 +1,5 @@
+import Data.Bits
+
 data State = Dead | Alive deriving Eq
 
 instance Show State where
@@ -25,8 +27,8 @@ newRightList = [Alive] ++ cycle [Dead]
 newWolfram :: Wolfram
 newWolfram = (Wolfram newLeftList newRightList)
 
-my :: Wolfram -> String
-my (Wolfram left right) = showStateList (take 3 left) ++ showStateList (take 3 right)
+getBit :: Int -> Int -> Bool
+getBit nb index = testBit nb index
 
 main :: IO ()
-main = putStrLn (my newWolfram)
+main = putStrLn (show (getBit 110 7))
