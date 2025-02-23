@@ -1,4 +1,13 @@
+{-
+-- EPITECH PROJECT, 2025
+-- Wolfram
+-- File description:
+-- Main
+-}
+
 import Data.Bits
+import System.Environment (getArgs)
+import System.Exit (exitWith, ExitCode (ExitFailure, ExitSuccess))
 
 data State = Dead | Alive deriving Eq
 
@@ -11,12 +20,24 @@ data Wolfram = Wolfram {
     rightList :: [State]
 }
 
+data Args = Args {
+    r :: Maybe Int,
+    s :: Maybe Int,
+    l :: Maybe Int,
+    w :: Maybe Int,
+    m :: Maybe Int,
+    err :: Bool
+}
+
 showStateList :: [State] -> String
 showStateList [] = ""
 showStateList (x:xs) = show x ++ showStateList xs
 
 instance Show Wolfram where
     show (Wolfram left right) = showStateList left ++ showStateList right
+
+instance Show Args where
+    show (Args r s l w m err) = "rule : " ++ show r ++ "\nstart : " ++ show s ++ "\nlines : " ++ show l ++ "\nwindow : " ++ show w ++ "\nmove : " ++ show m ++ "\nerr : " ++ show err
 
 newLeftRow :: [State]
 newLeftRow = repeat Dead
@@ -26,6 +47,9 @@ newRightRow = Alive : repeat Dead
 
 newWolfram :: Wolfram
 newWolfram = (Wolfram newLeftRow newRightRow)
+
+newArgs :: Args
+newArgs = (Args Nothing Nothing Nothing Nothing Nothing False)
 
 getBit :: Int -> Int -> Bool
 getBit nb index = testBit nb index
@@ -45,7 +69,8 @@ getState ruleNb (Alive, Alive, Dead) = castState (getBit ruleNb 6)
 getState ruleNb (Alive, Alive, Alive) = castState (getBit ruleNb 7)
 
 getRow :: Int -> [State] -> [State]
-getRow ruleNb (x1:x2:x3:xs) = (getState ruleNb (x1, x2, x3)) : (getRow ruleNb (x2:x3:xs))
+getRow ruleNb (x1:x2:x3:xs) = ((getState ruleNb (x1, x2, x3)) :
+    (getRow ruleNb (x2:x3:xs)))
 getRow _ _ = []
 
 getCenter :: Int -> Wolfram -> State
