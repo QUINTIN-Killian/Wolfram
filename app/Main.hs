@@ -46,7 +46,7 @@ main = do
     let (Args r s l w m err) = exploreArgs progArgs newArgs
     if null progArgs || err || r == Nothing
     then usageWithRet 84
-    else putStrLn (show (Args r s l w m err))
+    else putStrLn (show (setArgs (Args r s l w m err)))
     -- putStrLn (showStateList (reverse (take 5 (getRow 110 left))))
     -- putStrLn (show (getCenter 110 (Wolfram left right)))
     -- putStrLn (showStateList (take 5 (getRow 110 right)))
