@@ -8,6 +8,10 @@
 CC	=	ghc
 
 SRC	=	app/Main.hs	\
+		app/Utils.hs	\
+		app/WolframData.hs	\
+		app/ArgsData.hs	\
+		app/Args.hs	\
 
 OBJ	=	$(SRC:*.hs=*.o)
 

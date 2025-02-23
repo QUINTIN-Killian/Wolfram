@@ -5,51 +5,15 @@
 -- Main
 -}
 
+module Main where
+
 import Data.Bits
 import System.Environment (getArgs)
 import System.Exit (exitWith, ExitCode (ExitFailure, ExitSuccess))
-
-data State = Dead | Alive deriving Eq
-
-instance Show State where
-    show Dead = " "
-    show Alive = "*"
-
-data Wolfram = Wolfram {
-    leftList :: [State],
-    rightList :: [State]
-}
-
-data Args = Args {
-    r :: Maybe Int,
-    s :: Maybe Int,
-    l :: Maybe Int,
-    w :: Maybe Int,
-    m :: Maybe Int,
-    err :: Bool
-}
-
-showStateList :: [State] -> String
-showStateList [] = ""
-showStateList (x:xs) = show x ++ showStateList xs
-
-instance Show Wolfram where
-    show (Wolfram left right) = showStateList left ++ showStateList right
-
-instance Show Args where
-    show (Args r s l w m err) = "rule : " ++ show r ++ "\nstart : " ++ show s ++ "\nlines : " ++ show l ++ "\nwindow : " ++ show w ++ "\nmove : " ++ show m ++ "\nerr : " ++ show err
-
-newLeftRow :: [State]
-newLeftRow = repeat Dead
-
-newRightRow :: [State]
-newRightRow = Alive : repeat Dead
-
-newWolfram :: Wolfram
-newWolfram = (Wolfram newLeftRow newRightRow)
-
-newArgs :: Args
-newArgs = (Args Nothing Nothing Nothing Nothing Nothing False)
+import Utils
+import WolframData
+import ArgsData
+import Args
 
 getBit :: Int -> Int -> Bool
 getBit nb index = testBit nb index
@@ -76,9 +40,25 @@ getRow _ _ = []
 getCenter :: Int -> Wolfram -> State
 getCenter ruleNb (Wolfram (x:xs) (y1:y2:ys)) = getState ruleNb (x, y1, y2)
 
+usageWithRet :: Int -> IO ()
+usageWithRet ret =
+    putStrLn ("./wolfram --rule n (--start n) (--lines n) (--window n) " ++
+    "(--move n)") >>
+    putStrLn "--rule : rule to display" >>
+    putStrLn "--start : starting line" >>
+    putStrLn "--lines : number of lines" >>
+    putStrLn "--window : line width" >>
+    putStrLn "--move : a translation to apply" >>
+    exitWith (if ret == 0 then ExitSuccess else ExitFailure ret)
+
 main :: IO ()
 main = do
-    putStrLn (showStateList (reverse (take 5 (getRow 110 left))))
-    putStrLn (show (getCenter 110 (Wolfram left right)))
-    putStrLn (showStateList (take 5 (getRow 110 right)))
-    where (Wolfram left right) = newWolfram
+    progArgs <- getArgs
+    let (Args r s l w m err) = exploreArgs progArgs newArgs
+    if null progArgs || err || r == Nothing
+    then usageWithRet 84
+    else putStrLn (show (Args r s l w m err))
+    -- putStrLn (showStateList (reverse (take 5 (getRow 110 left))))
+    -- putStrLn (show (getCenter 110 (Wolfram left right)))
+    -- putStrLn (showStateList (take 5 (getRow 110 right)))
+    -- where (Wolfram left right) = newWolfram

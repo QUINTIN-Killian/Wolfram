@@ -38,6 +38,10 @@ library
 executable Wolfram-exe
   main-is: Main.hs
   other-modules:
+      Args
+      ArgsData
+      Utils
+      WolframData
       Paths_Wolfram
   autogen-modules:
       Paths_Wolfram
