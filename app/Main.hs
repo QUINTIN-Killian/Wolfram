@@ -9,7 +9,6 @@ module Main where
 
 import Data.Bits
 import System.Environment (getArgs)
-import System.Exit (exitWith, ExitCode (ExitFailure, ExitSuccess))
 import Utils
 import WolframData
 import ArgsData
@@ -40,20 +39,10 @@ getRow _ _ = []
 getCenter :: Int -> Wolfram -> State
 getCenter ruleNb (Wolfram (x:xs) (y1:y2:ys)) = getState ruleNb (x, y1, y2)
 
-usageWithRet :: Int -> IO ()
-usageWithRet ret =
-    putStrLn ("./wolfram --rule n (--start n) (--lines n) (--window n) " ++
-    "(--move n)") >>
-    putStrLn "--rule : rule to display" >>
-    putStrLn "--start : starting line" >>
-    putStrLn "--lines : number of lines" >>
-    putStrLn "--window : line width" >>
-    putStrLn "--move : a translation to apply" >>
-    exitWith (if ret == 0 then ExitSuccess else ExitFailure ret)
-
 main :: IO ()
 main = do
     progArgs <- getArgs
+    help progArgs
     let (Args r s l w m err) = exploreArgs progArgs newArgs
     if null progArgs || err || r == Nothing
     then usageWithRet 84

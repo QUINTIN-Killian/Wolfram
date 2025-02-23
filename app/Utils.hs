@@ -5,7 +5,9 @@
 -- Utils
 -}
 
-module Utils (isInt, isIntInRange, isNeg, isPos) where
+module Utils (isInt, isIntInRange, isNeg, isPos, usageWithRet) where
+
+import System.Exit (exitWith, ExitCode (ExitFailure, ExitSuccess))
 
 isNbr :: String -> Bool
 isNbr [] = True
@@ -39,3 +41,14 @@ isPos :: Int -> Bool
 isPos n
     | n >= 0 = True
     | otherwise = False
+
+usageWithRet :: Int -> IO ()
+usageWithRet ret =
+    putStrLn ("./wolfram --rule n (--start n) (--lines n) (--window n) " ++
+    "(--move n)") >>
+    putStrLn "--rule : rule to display" >>
+    putStrLn "--start : starting line" >>
+    putStrLn "--lines : number of lines" >>
+    putStrLn "--window : line width" >>
+    putStrLn "--move : a translation to apply" >>
+    exitWith (if ret == 0 then ExitSuccess else ExitFailure ret)

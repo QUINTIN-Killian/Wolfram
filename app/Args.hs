@@ -5,8 +5,8 @@
 -- Setters
 -}
 
-module Args (exploreArgs, setRule, setStart, setLines, setWindow, setMove)
-where
+module Args (exploreArgs, setRule, setStart, setLines, setWindow, setMove,
+help) where
 
 import ArgsData
 import Utils
@@ -62,3 +62,7 @@ exploreArgs (x:xs) args@(Args r s l w m err) = case x of
     "--window" -> exploreArgs (tail xs) (setWindow args (head xs))
     "--move" -> exploreArgs (tail xs) (setMove args (head xs))
     _ -> (Args r s l w m True)
+
+help :: [String] -> IO ()
+help ("-h":[]) = usageWithRet 0
+help _ = return ()
