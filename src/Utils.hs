@@ -17,9 +17,8 @@ isNbr (x : xs)
 
 checkNeg :: String -> Bool
 checkNeg [] = False
-checkNeg (x : xs)
-    | x == '-' = isNbr xs
-    | otherwise = isNbr (x : xs)
+checkNeg ('-' : xs) = isNbr xs
+checkNeg str = isNbr str
 
 isInt :: String -> Bool
 isInt [] = False
