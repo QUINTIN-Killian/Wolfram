@@ -48,9 +48,8 @@ generateInfiniteWolfram _ _ = []
 
 printWolfram :: Args -> [Wolfram] -> IO ()
 printWolfram (Args _ _ 0 _ _) _ = return ()
-printWolfram args@(Args r s _ w m) (wolfram : rest) = putStr (showStateList
+printWolfram args@(Args r s l w m) (wolfram : rest) = putStr (showStateList
     (reverse (take ((window args) `div` 2) (leftList wolfram)))) >> putStrLn (
     showStateList (take (((window args) `div` 2) + ((window args) `mod` 2))
-    (rightList wolfram))) >> printWolfram (Args r s ((nbLines args) - 1) w m)
-    rest
+    (rightList wolfram))) >> printWolfram (Args r s (l - 1) w m) rest
 printWolfram _ _ = return ()
