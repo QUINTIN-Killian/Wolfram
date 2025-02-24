@@ -23,7 +23,7 @@ showStateList [] = ""
 showStateList (x:xs) = show x ++ showStateList xs
 
 instance Show Wolfram where
-    show (Wolfram left right) = showStateList left ++ showStateList right
+    show wolfram = showStateList (leftList wolfram) ++ showStateList (rightList wolfram)
 
 newWolfram :: Wolfram
 newWolfram = Wolfram {leftList = repeat Dead, rightList = Alive:repeat Dead}

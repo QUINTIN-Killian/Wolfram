@@ -38,15 +38,13 @@ getLeftList ruleNb (x1 : x2 : xs) other =
     (getState ruleNb (x2, x1, other)) : (getLeftList ruleNb (x2 : xs) x1)
 
 generateInfiniteWolfram :: Int -> Wolfram -> [Wolfram]
-generateInfiniteWolfram ruleNb wolfram@(Wolfram left right) =
-    wolfram : generateInfiniteWolfram ruleNb (Wolfram (getLeftList ruleNb left
-    (head right)) (getRightList ruleNb right (head left)))
+generateInfiniteWolfram ruleNb wolfram@(Wolfram (lHead : lRest) (rHead : rRest)) =
+    wolfram : generateInfiniteWolfram ruleNb (Wolfram (getLeftList ruleNb (lHead : lRest) rHead) (getRightList ruleNb (rHead : rRest) lHead))
 
 printWolfram :: Args -> [Wolfram] -> IO ()
 printWolfram (Args r s 0 w m) _ = return ()
-printWolfram args@(Args r s l w m)
-    ((Wolfram left right) : xs) =
-    putStr (showStateList (reverse (take ((window args) `div` 2) left))) >>
+printWolfram args@(Args r s l w m) (wolfram : rest) =
+    putStr (showStateList (reverse (take ((window args) `div` 2) (leftList wolfram)))) >>
     putStrLn (showStateList (take (((window args) `div` 2) +
-    ((window args) `mod` 2)) right)) >>
-    printWolfram (Args r s ((nbLines args) - 1) w m) xs
+    ((window args) `mod` 2)) (rightList wolfram))) >>
+    printWolfram (Args r s ((nbLines args) - 1) w m) rest
