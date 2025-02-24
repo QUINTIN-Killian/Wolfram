@@ -5,8 +5,7 @@
 -- WolframData
 -}
 
-module WolframData (State(..), Wolfram(..), showStateList, newLeftRow,
-newRightRow, newWolfram) where
+module WolframData (State(..), Wolfram(..), showStateList, newWolfram) where
 
 data State = Dead | Alive deriving Eq
 
@@ -26,11 +25,5 @@ showStateList (x:xs) = show x ++ showStateList xs
 instance Show Wolfram where
     show (Wolfram left right) = showStateList left ++ showStateList right
 
-newLeftRow :: [State]
-newLeftRow = repeat Dead
-
-newRightRow :: [State]
-newRightRow = Alive : repeat Dead
-
 newWolfram :: Wolfram
-newWolfram = (Wolfram newLeftRow newRightRow)
+newWolfram = Wolfram {leftList = repeat Dead, rightList = Alive : repeat Dead}
