@@ -19,7 +19,7 @@ checkNeg :: String -> Bool
 checkNeg [] = False
 checkNeg (x : xs)
     | x == '-' = isNbr xs
-    | otherwise = isNbr x
+    | otherwise = isNbr (x : xs)
 
 isInt :: String -> Bool
 isInt [] = False
