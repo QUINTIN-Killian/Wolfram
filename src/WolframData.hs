@@ -27,4 +27,4 @@ instance Show Wolfram where
         wolfram)
 
 newWolfram :: Wolfram
-newWolfram = Wolfram {leftList = repeat Dead, rightList = Alive:repeat Dead}
+newWolfram = (Wolfram (repeat Dead) (Alive : repeat Dead))
