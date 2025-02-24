@@ -8,23 +8,20 @@
 module ArgsData (Args(..), newArgs) where
 
 data Args = Args {
-    rule :: Maybe Int,
-    start :: Maybe Int,
-    nbLines :: Maybe Int,
-    window :: Maybe Int,
-    move :: Maybe Int,
-    err :: Bool
+    rule :: Int,
+    start :: Int,
+    nbLines :: Int,
+    window :: Int,
+    move :: Int
 }
 
 instance Show Args where
-    show (Args rule start nbLines window move err) = (
-        "rule : " ++ show rule ++ 
-        "\nstart : " ++ show start ++ 
-        "\nlines : " ++ show nbLines ++ 
-        "\nwindow : " ++ show window ++ 
-        "\nmove : " ++ show move ++ 
-        "\nerr : " ++ show err
-        )
+    show args =
+        "rule : " ++ show (rule args) ++
+        "\nstart : " ++ show (start args) ++
+        "\nlines : " ++ show (nbLines args) ++
+        "\nwindow : " ++ show (window args) ++
+        "\nmove : " ++ show (move args)
 
-newArgs :: Args
-newArgs = (Args Nothing Nothing Nothing Nothing Nothing False)
+newArgs :: Maybe Args
+newArgs = Just (Args (-1) 0 (-1) 80 0)

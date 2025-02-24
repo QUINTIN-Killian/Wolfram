@@ -7,7 +7,6 @@
 
 module Main where
 
-import Data.Maybe
 import System.Environment (getArgs)
 import Utils
 import WolframData
@@ -19,10 +18,10 @@ main :: IO ()
 main = do
     progArgs <- getArgs
     help progArgs
-    let (Args rule start nbLines window move err) =
-            exploreArgs progArgs newArgs
-    if null progArgs || err || rule == Nothing
-    then usageWithRet 84
-    else printWolfram (setArgs (Args rule start nbLines window move err))
-        (drop (fromMaybe 0 start) (generateInfiniteWolfram (fromJust rule) 
-        newWolfram))
+    case argsGetter progArgs newArgs of
+        Just args ->
+            if null progArgs || rule args == -1
+            then usageWithRet 84
+            else printWolfram args (drop (start args) (generateInfiniteWolfram
+            (rule args) newWolfram))
+        _ -> usageWithRet 84

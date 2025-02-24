@@ -11,7 +11,7 @@ import System.Exit (exitWith, ExitCode (ExitFailure, ExitSuccess))
 
 isNbr :: String -> Bool
 isNbr [] = True
-isNbr (x:xs)
+isNbr (x : xs)
     | x >= '0' && x <= '9' = isNbr xs
     | otherwise = False
 
