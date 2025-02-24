@@ -32,21 +32,23 @@ getState ruleNb (Alive, Alive, Alive) = castState (getBit ruleNb 7)
 
 getRightList :: Int -> [State] -> State -> [State]
 getRightList ruleNb (x1:x2:xs) other =
-    (getState ruleNb (other, x1, x2)) : (getRightList ruleNb (x2:xs) x1)
+    (getState ruleNb (other, x1, x2)):(getRightList ruleNb (x2:xs) x1)
 
 getLeftList :: Int -> [State] -> State -> [State]
 getLeftList ruleNb (x1:x2:xs) other =
-    (getState ruleNb (x2, x1, other)) : (getLeftList ruleNb (x2:xs) x1)
+    (getState ruleNb (x2, x1, other)):(getLeftList ruleNb (x2:xs) x1)
 
 generateInfiniteWolfram :: Int -> Wolfram -> [Wolfram]
 generateInfiniteWolfram ruleNb wolfram@(Wolfram left right) =
-    wolfram : generateInfiniteWolfram ruleNb (Wolfram (getLeftList ruleNb left
+    wolfram:generateInfiniteWolfram ruleNb (Wolfram (getLeftList ruleNb left
     (head right)) (getRightList ruleNb right (head left)))
 
 printWolfram :: Args -> [Wolfram] -> IO ()
-printWolfram (Args r s (Just 0) w m err) _ = return ()
-printWolfram (Args r s l w m err) ((Wolfram left right):xs) =
-    putStr (showStateList (reverse (take ((fromJust w) `div` 2) left))) >>
-    putStrLn (showStateList (take (((fromJust w) `div` 2) + ((fromJust w) `mod`
-    2)) right)) >>
-    printWolfram (Args r s (Just ((fromJust l) - 1)) w m err) xs
+printWolfram (Args rule start (Just 0) window move err) _ = return ()
+printWolfram (Args rule start nbLines window move err)
+    ((Wolfram left right):xs) =
+    putStr (showStateList (reverse (take ((fromJust window) `div` 2) left))) >>
+    putStrLn (showStateList (take (((fromJust window) `div` 2) +
+    ((fromJust window) `mod` 2)) right)) >>
+    printWolfram (Args rule start (Just ((fromJust nbLines) - 1)) window move
+    err) xs

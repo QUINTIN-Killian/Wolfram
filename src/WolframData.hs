@@ -26,4 +26,4 @@ instance Show Wolfram where
     show (Wolfram left right) = showStateList left ++ showStateList right
 
 newWolfram :: Wolfram
-newWolfram = Wolfram {leftList = repeat Dead, rightList = Alive : repeat Dead}
+newWolfram = Wolfram {leftList = repeat Dead, rightList = Alive:repeat Dead}

@@ -19,8 +19,10 @@ main :: IO ()
 main = do
     progArgs <- getArgs
     help progArgs
-    let (Args r s l w m err) = exploreArgs progArgs newArgs
-    if null progArgs || err || r == Nothing
+    let (Args rule start nbLines window move err) =
+            exploreArgs progArgs newArgs
+    if null progArgs || err || rule == Nothing
     then usageWithRet 84
-    else printWolfram (setArgs (Args r s l w m err)) (drop (fromMaybe 0 s) (
-        generateInfiniteWolfram (fromJust r) newWolfram))
+    else printWolfram (setArgs (Args rule start nbLines window move err))
+        (drop (fromMaybe 0 start) (generateInfiniteWolfram (fromJust rule) 
+        newWolfram))
