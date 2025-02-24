@@ -5,8 +5,7 @@
 -- Setters
 -}
 
-module Args (exploreArgs, setRule, setStart, setLines, setWindow, setMove,
-setArgs, help) where
+module Args (exploreArgs, setArgs, help) where
 
 import ArgsData
 import Utils

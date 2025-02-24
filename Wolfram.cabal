@@ -28,6 +28,7 @@ library
       Args
       ArgsData
       Utils
+      Wolfram
       WolframData
   other-modules:
       Paths_Wolfram

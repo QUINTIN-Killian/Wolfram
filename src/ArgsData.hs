@@ -17,7 +17,14 @@ data Args = Args {
 }
 
 instance Show Args where
-    show (Args r s l w m err) = "rule : " ++ show r ++ "\nstart : " ++ show s ++ "\nlines : " ++ show l ++ "\nwindow : " ++ show w ++ "\nmove : " ++ show m ++ "\nerr : " ++ show err
+    show (Args r s l w m err) = (
+        "rule : " ++ show r ++ 
+        "\nstart : " ++ show s ++ 
+        "\nlines : " ++ show l ++ 
+        "\nwindow : " ++ show w ++ 
+        "\nmove : " ++ show m ++ 
+        "\nerr : " ++ show err
+        )
 
 newArgs :: Args
 newArgs = (Args Nothing Nothing Nothing Nothing Nothing False)

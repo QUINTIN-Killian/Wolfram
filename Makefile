@@ -10,6 +10,7 @@ CC	=	ghc
 SRC	=	app/Main.hs	\
 		src/Utils.hs	\
 		src/WolframData.hs	\
+		src/Wolfram.hs	\
 		src/ArgsData.hs	\
 		src/Args.hs	\
 
