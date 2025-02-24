@@ -5,7 +5,7 @@
 -- Main
 -}
 
-module Main where
+module Main (main) where
 
 import System.Environment (getArgs)
 import Utils
