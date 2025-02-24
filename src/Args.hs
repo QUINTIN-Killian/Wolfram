@@ -11,40 +11,35 @@ import ArgsData
 import Utils
 
 setRule :: Args -> String -> Args
-setRule (Args r s l w m err) [] =
-    (Args r s l w m True)
+setRule (Args r s l w m err) [] = (Args r s l w m True)
 setRule (Args r s l w m err) str =
     if not (isInt str && isIntInRange (read str) 0 255)
     then (Args r s l w m True)
     else (Args (Just (read str)) s l w m err)
 
 setStart :: Args -> String -> Args
-setStart (Args r s l w m err) [] =
-    (Args r s l w m True)
+setStart (Args r s l w m err) [] = (Args r s l w m True)
 setStart (Args r s l w m err) str =
     if not (isInt str && isPos (read str))
     then (Args r s l w m True)
     else (Args r (Just (read str)) l w m err)
 
 setLines :: Args -> String -> Args
-setLines (Args r s l w m err) [] =
-    (Args r s l w m True)
+setLines (Args r s l w m err) [] = (Args r s l w m True)
 setLines (Args r s l w m err) str =
     if not (isInt str && isPos (read str))
     then (Args r s l w m True)
     else (Args r s (Just (read str)) w m err)
 
 setWindow :: Args -> String -> Args
-setWindow (Args r s l w m err) [] =
-    (Args r s l w m True)
+setWindow (Args r s l w m err) [] = (Args r s l w m True)
 setWindow (Args r s l w m err) str =
     if not (isInt str && isPos (read str))
     then (Args r s l w m True)
     else (Args r s l (Just (read str)) m err)
 
 setMove :: Args -> String -> Args
-setMove (Args r s l w m err) [] =
-    (Args r s l w m True)
+setMove (Args r s l w m err) [] = (Args r s l w m True)
 setMove (Args r s l w m err) str =
     if not (isInt str)
     then (Args r s l w m True)
