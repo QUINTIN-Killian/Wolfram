@@ -35,8 +35,6 @@ ghc-options:
 
 library:
   source-dirs: src
-  dependencies:
-  - base
 
 executables:
   Wolfram-exe:
@@ -47,7 +45,7 @@ executables:
     - -rtsopts
     - -with-rtsopts=-N
     dependencies:
-    - base
+    - Wolfram
 
 tests:
   Wolfram-test:

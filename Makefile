@@ -8,10 +8,10 @@
 CC	=	ghc
 
 SRC	=	app/Main.hs	\
-		app/Utils.hs	\
-		app/WolframData.hs	\
-		app/ArgsData.hs	\
-		app/Args.hs	\
+		src/Utils.hs	\
+		src/WolframData.hs	\
+		src/ArgsData.hs	\
+		src/Args.hs	\
 
 OBJ	=	$(SRC:*.hs=*.o)
 
@@ -25,6 +25,8 @@ $(EXEC):	$(OBJ)
 	@mkdir -p bin
 	@mv app/*.o bin
 	@mv app/*.hi bin
+	@mv src/*.o bin
+	@mv src/*.hi bin
 
 clean:
 	rm -rf bin
