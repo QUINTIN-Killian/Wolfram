@@ -8,6 +8,7 @@
 module Main where
 
 import Data.Bits
+import Data.Maybe
 import System.Environment (getArgs)
 import Utils
 import WolframData
@@ -31,13 +32,26 @@ getState ruleNb (Alive, Dead, Alive) = castState (getBit ruleNb 5)
 getState ruleNb (Alive, Alive, Dead) = castState (getBit ruleNb 6)
 getState ruleNb (Alive, Alive, Alive) = castState (getBit ruleNb 7)
 
-getRow :: Int -> [State] -> [State]
-getRow ruleNb (x1:x2:x3:xs) = ((getState ruleNb (x1, x2, x3)) :
-    (getRow ruleNb (x2:x3:xs)))
-getRow _ _ = []
+getRightList :: Int -> [State] -> State -> [State]
+getRightList ruleNb (x1:x2:xs) other =
+    (getState ruleNb (other, x1, x2)) : (getRightList ruleNb (x2:xs) x1)
 
-getCenter :: Int -> Wolfram -> State
-getCenter ruleNb (Wolfram (x:xs) (y1:y2:ys)) = getState ruleNb (x, y1, y2)
+getLeftList :: Int -> [State] -> State -> [State]
+getLeftList ruleNb (x1:x2:xs) other =
+    (getState ruleNb (x2, x1, other)) : (getLeftList ruleNb (x2:xs) x1)
+
+generateInfiniteWolfram :: Int -> Wolfram -> [Wolfram]
+generateInfiniteWolfram ruleNb wolfram@(Wolfram left right) =
+    wolfram : generateInfiniteWolfram ruleNb (Wolfram (getLeftList ruleNb left
+    (head right)) (getRightList ruleNb right (head left)))
+
+printWolfram :: Args -> [Wolfram] -> IO ()
+printWolfram (Args r s (Just 0) w m err) _ = return ()
+printWolfram (Args r s l w m err) ((Wolfram left right):xs) =
+    putStr (showStateList (reverse (take ((fromJust w) `div` 2) left))) >>
+    putStrLn (showStateList (take (((fromJust w) `div` 2) + ((fromJust w) `mod`
+    2)) right)) >>
+    printWolfram (Args r s (Just ((fromJust l) - 1)) w m err) xs
 
 main :: IO ()
 main = do
@@ -46,8 +60,5 @@ main = do
     let (Args r s l w m err) = exploreArgs progArgs newArgs
     if null progArgs || err || r == Nothing
     then usageWithRet 84
-    else putStrLn (show (setArgs (Args r s l w m err)))
-    -- putStrLn (showStateList (reverse (take 5 (getRow 110 left))))
-    -- putStrLn (show (getCenter 110 (Wolfram left right)))
-    -- putStrLn (showStateList (take 5 (getRow 110 right)))
-    -- where (Wolfram left right) = newWolfram
+    else printWolfram (setArgs (Args r s l w m err)) (drop (fromMaybe 0 s) (
+        generateInfiniteWolfram (fromJust r) newWolfram))
