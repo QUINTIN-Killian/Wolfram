@@ -12,6 +12,11 @@ This project implements Stephen Wolfram’s computational system to generate and
 
 ## 🚀 Getting started
 
+### Dependencies
+
+* stack
+* ghc
+
 ### Installing
 
 **Clone the repository:**
