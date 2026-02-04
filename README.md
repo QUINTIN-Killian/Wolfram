@@ -32,6 +32,12 @@ make
 **Executing:**
 
 ```bash
+./wolfram <rule_nb>
+```
+
+Example:
+
+```bash
 ./wolfram 27
 ```
 
